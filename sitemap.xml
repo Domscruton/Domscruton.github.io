@@ -11,6 +11,18 @@
     <loc>https://domscruton.github.io/event/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://domscruton.github.io/tag/other/</loc>
+    <lastmod>2020-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://domscruton.github.io/project/</loc>
+    <lastmod>2020-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://domscruton.github.io/project/spotify/spotify/</loc>
+    <lastmod>2020-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://domscruton.github.io/tags/</loc>
+    <lastmod>2020-04-01T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://domscruton.github.io/slides/</loc>
     <lastmod>2019-02-05T00:00:00+00:00</lastmod>
   </url><url>
@@ -21,12 +33,6 @@
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://domscruton.github.io/project/example/</loc>
-    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://domscruton.github.io/project/</loc>
-    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://domscruton.github.io/tags/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://domscruton.github.io/publication-type/1/</loc>
@@ -44,8 +50,6 @@
     <loc>https://domscruton.github.io/admin/</loc>
   </url><url>
     <loc>https://domscruton.github.io/categories/</loc>
-  </url><url>
-    <loc>https://domscruton.github.io/post/glm-irls/</loc>
   </url><url>
     <loc>https://domscruton.github.io/post/</loc>
   </url>
