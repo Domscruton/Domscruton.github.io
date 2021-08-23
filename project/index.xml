@@ -5,7 +5,7 @@
     <link>https://domscruton.github.io/project/</link>
       <atom:link href="https://domscruton.github.io/project/index.xml" rel="self" type="application/rss+xml" />
     <description>Projects</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2021 Dominic Scruton</copyright><lastBuildDate>Mon, 23 Aug 2021 17:28:03 +0100</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2021 Dominic Scruton</copyright><lastBuildDate>Mon, 01 Jun 2020 17:28:03 +0100</lastBuildDate>
     <image>
       <url>https://domscruton.github.io/media/icon_huf497c2b2f164bad8bc149e8f8dbb116c_2858_512x512_fill_lanczos_center_3.png</url>
       <title>Projects</title>
@@ -13,34 +13,11 @@
     </image>
     
     <item>
-      <title>Carinsurance</title>
+      <title>Predicting Car Insurance Claims</title>
       <link>https://domscruton.github.io/project/carinsurance/</link>
-      <pubDate>Mon, 23 Aug 2021 17:28:03 +0100</pubDate>
+      <pubDate>Mon, 01 Jun 2020 17:28:03 +0100</pubDate>
       <guid>https://domscruton.github.io/project/carinsurance/</guid>
-      <description>&lt;h3 id=&#34;contents&#34;&gt;Contents&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;1) Introduction- Framing the Problem&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;2) Import and Tidy the Data&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;3) Exploratory Data Analysis&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;4) Preparing the Data for Machine Learning Algorithms&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;5) The ROC Curve and AUC Score as a Measure of Performance&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;6) Fitting and Training Machine Learning Models&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;a) Logistic Regression
-
-b) Random Forest Regressor
-
-c) Neural Network
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;7) Fine-Tune Models&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;a) Number of Hidden Layers
-
-b) Number of Neurons per Hidden Layer
-
-c) Learning Rate
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;8) Assess Model Performance&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;9) Conclusions&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id=&#34;1-introduction--framing-the-problem&#34;&gt;1) Introduction- Framing the Problem&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;1-introduction--framing-the-problem&#34;&gt;1) Introduction- Framing the Problem&lt;/h2&gt;
 &lt;p&gt;The objective of this assignment is to build a model that predicts the probability that individual motorists will initiate an auto insurance claim within the next year. The problem itself is one of classification, however the predicted probabilities of making a claim are of more interest, as often they are far below 0.5, suggesting that none of the models would classify any individuals as making a claim. This was due to only 3.64% of individuals in the training data making a claim and caused also by a lack of correlation between the target variable and most of the features, suggesting that the features lacked enough information to fully explain differences in the claims rate between individuals. The classification problem can be expressed as follows:&lt;/p&gt;
 &lt;p&gt;$$y_i = f(X_i, \theta)$$&lt;/p&gt;
 &lt;p&gt;In this case, the response, $y_i$, is the probability that individual i makes a claim within the next year. It could also be converted into a prediction (&amp;lsquo;claim&amp;rsquo; or &amp;lsquo;no claim&amp;rsquo;) by assigning a threshold; if the probability of claiming is greater than this threshold, the individual is predicted to make a claim, otherwise they are not predicted to make a claim. The goal of machine learning is to find and estimate a model, $f(X_i, \theta)$, that takes as its arguments the data for the ith instance ($X_i$) and the estimated parameter values ($\theta$), and provides the most accurate predictions on unseen data.&lt;/p&gt;
@@ -2568,19 +2545,6 @@ for (i in N_clusters) {
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Example Project</title>
-      <link>https://domscruton.github.io/project/example/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      <guid>https://domscruton.github.io/project/example/</guid>
-      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
-&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
-&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
-&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
-&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
 </description>
     </item>
     

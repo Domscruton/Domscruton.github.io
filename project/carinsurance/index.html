@@ -30,11 +30,7 @@
   
     
   
-  <meta name="description" content="Contents 1) Introduction- Framing the Problem
-2) Import and Tidy the Data
-3) Exploratory Data Analysis
-4) Preparing the Data for Machine Learning Algorithms
-5) The ROC Curve and AUC Score as a Measure of Performance" />
+  <meta name="description" content="1) Introduction- Framing the Problem The objective of this assignment is to build a model that predicts the probability that individual motorists will initiate an auto insurance claim within the next year." />
 
   
   <link rel="alternate" hreflang="en-us" href="https://domscruton.github.io/project/carinsurance/" />
@@ -301,21 +297,17 @@
   
   <meta property="og:site_name" content="Dominic Scruton" />
   <meta property="og:url" content="https://domscruton.github.io/project/carinsurance/" />
-  <meta property="og:title" content="Carinsurance | Dominic Scruton" />
-  <meta property="og:description" content="Contents 1) Introduction- Framing the Problem
-2) Import and Tidy the Data
-3) Exploratory Data Analysis
-4) Preparing the Data for Machine Learning Algorithms
-5) The ROC Curve and AUC Score as a Measure of Performance" /><meta property="og:image" content="https://domscruton.github.io/media/icon_huf497c2b2f164bad8bc149e8f8dbb116c_2858_512x512_fill_lanczos_center_3.png" />
+  <meta property="og:title" content="Predicting Car Insurance Claims | Dominic Scruton" />
+  <meta property="og:description" content="1) Introduction- Framing the Problem The objective of this assignment is to build a model that predicts the probability that individual motorists will initiate an auto insurance claim within the next year." /><meta property="og:image" content="https://domscruton.github.io/media/icon_huf497c2b2f164bad8bc149e8f8dbb116c_2858_512x512_fill_lanczos_center_3.png" />
     <meta property="twitter:image" content="https://domscruton.github.io/media/icon_huf497c2b2f164bad8bc149e8f8dbb116c_2858_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
   
     
       <meta
         property="article:published_time"
-        content="2021-08-23T17:28:03&#43;01:00"
+        content="2020-06-01T17:28:03&#43;01:00"
       />
     
-    <meta property="article:modified_time" content="2021-08-23T17:28:03&#43;01:00">
+    <meta property="article:modified_time" content="2020-06-01T17:28:03&#43;01:00">
   
 
   
@@ -339,10 +331,10 @@
     "@type": "WebPage",
     "@id": "https://domscruton.github.io/project/carinsurance/"
   },
-  "headline": "Carinsurance",
+  "headline": "Predicting Car Insurance Claims",
   
-  "datePublished": "2021-08-23T17:28:03+01:00",
-  "dateModified": "2021-08-23T17:28:03+01:00",
+  "datePublished": "2020-06-01T17:28:03+01:00",
+  "dateModified": "2020-06-01T17:28:03+01:00",
   
   "author": {
     "@type": "Person",
@@ -357,7 +349,7 @@
       "url": "https://domscruton.github.io/media/icon_huf497c2b2f164bad8bc149e8f8dbb116c_2858_192x192_fill_lanczos_center_3.png"
     }
   },
-  "description": "Contents 1) Introduction- Framing the Problem\n2) Import and Tidy the Data\n3) Exploratory Data Analysis\n4) Preparing the Data for Machine Learning Algorithms\n5) The ROC Curve and AUC Score as a Measure of Performance"
+  "description": "1) Introduction- Framing the Problem The objective of this assignment is to build a model that predicts the probability that individual motorists will initiate an auto insurance claim within the next year."
 }
 </script>
 
@@ -373,7 +365,7 @@
 
 
 
-  <title>Carinsurance | Dominic Scruton</title>
+  <title>Predicting Car Insurance Claims | Dominic Scruton</title>
 </head>
 
 
@@ -697,7 +689,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>Carinsurance</h1>
+  <h1>Predicting Car Insurance Claims</h1>
 
   
 
@@ -716,7 +708,7 @@
     
       
     
-    Aug 23, 2021
+    Jun 1, 2020
   </span>
   
 
@@ -750,30 +742,7 @@
   <div class="article-container">
 
     <div class="article-style">
-      <h3 id="contents">Contents</h3>
-<p><strong>1) Introduction- Framing the Problem</strong></p>
-<p><strong>2) Import and Tidy the Data</strong></p>
-<p><strong>3) Exploratory Data Analysis</strong></p>
-<p><strong>4) Preparing the Data for Machine Learning Algorithms</strong></p>
-<p><strong>5) The ROC Curve and AUC Score as a Measure of Performance</strong></p>
-<p><strong>6) Fitting and Training Machine Learning Models</strong></p>
-<pre><code>a) Logistic Regression
-
-b) Random Forest Regressor
-
-c) Neural Network
-</code></pre>
-<p><strong>7) Fine-Tune Models</strong></p>
-<pre><code>a) Number of Hidden Layers
-
-b) Number of Neurons per Hidden Layer
-
-c) Learning Rate
-</code></pre>
-<p><strong>8) Assess Model Performance</strong></p>
-<p><strong>9) Conclusions</strong></p>
-<p><strong>References</strong></p>
-<h2 id="1-introduction--framing-the-problem">1) Introduction- Framing the Problem</h2>
+      <h2 id="1-introduction--framing-the-problem">1) Introduction- Framing the Problem</h2>
 <p>The objective of this assignment is to build a model that predicts the probability that individual motorists will initiate an auto insurance claim within the next year. The problem itself is one of classification, however the predicted probabilities of making a claim are of more interest, as often they are far below 0.5, suggesting that none of the models would classify any individuals as making a claim. This was due to only 3.64% of individuals in the training data making a claim and caused also by a lack of correlation between the target variable and most of the features, suggesting that the features lacked enough information to fully explain differences in the claims rate between individuals. The classification problem can be expressed as follows:</p>
 <p>$$y_i = f(X_i, \theta)$$</p>
 <p>In this case, the response, $y_i$, is the probability that individual i makes a claim within the next year. It could also be converted into a prediction (&lsquo;claim&rsquo; or &lsquo;no claim&rsquo;) by assigning a threshold; if the probability of claiming is greater than this threshold, the individual is predicted to make a claim, otherwise they are not predicted to make a claim. The goal of machine learning is to find and estimate a model, $f(X_i, \theta)$, that takes as its arguments the data for the ith instance ($X_i$) and the estimated parameter values ($\theta$), and provides the most accurate predictions on unseen data.</p>
@@ -2593,6 +2562,12 @@ submission.to_csv(filename,index=False)
 
 
 
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/other/">Other</a>
+  
+</div>
+
 
 
 <div class="share-box" aria-hidden="true">
@@ -2606,7 +2581,7 @@ submission.to_csv(filename,index=False)
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https://domscruton.github.io/project/carinsurance/&amp;text=Carinsurance" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=https://domscruton.github.io/project/carinsurance/&amp;text=Predicting%20Car%20Insurance%20Claims" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -2619,7 +2594,7 @@ submission.to_csv(filename,index=False)
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https://domscruton.github.io/project/carinsurance/&amp;t=Carinsurance" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https://domscruton.github.io/project/carinsurance/&amp;t=Predicting%20Car%20Insurance%20Claims" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -2632,7 +2607,7 @@ submission.to_csv(filename,index=False)
       
       
       <li>
-        <a href="mailto:?subject=Carinsurance&amp;body=https://domscruton.github.io/project/carinsurance/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=Predicting%20Car%20Insurance%20Claims&amp;body=https://domscruton.github.io/project/carinsurance/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -2645,7 +2620,7 @@ submission.to_csv(filename,index=False)
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https://domscruton.github.io/project/carinsurance/&amp;title=Carinsurance" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=https://domscruton.github.io/project/carinsurance/&amp;title=Predicting%20Car%20Insurance%20Claims" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -2658,7 +2633,7 @@ submission.to_csv(filename,index=False)
       
       
       <li>
-        <a href="whatsapp://send?text=Carinsurance%20https://domscruton.github.io/project/carinsurance/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="whatsapp://send?text=Predicting%20Car%20Insurance%20Claims%20https://domscruton.github.io/project/carinsurance/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -2671,7 +2646,7 @@ submission.to_csv(filename,index=False)
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https://domscruton.github.io/project/carinsurance/&amp;title=Carinsurance" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https://domscruton.github.io/project/carinsurance/&amp;title=Predicting%20Car%20Insurance%20Claims" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -2785,6 +2760,15 @@ submission.to_csv(filename,index=False)
 
 
   
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/project/spotify/spotify/">Spotify Multivariate Analysis Report</a></li>
+      
+    </ul>
+  </div>
   
 
 
