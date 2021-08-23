@@ -1880,7 +1880,7 @@ submission.to_csv(filename,index=False)
     </item>
     
     <item>
-      <title>Spotify Multivariate Analysis Report</title>
+      <title>Spotify PCA &amp; Cluster Analysis</title>
       <link>https://domscruton.github.io/project/spotify/spotify/</link>
       <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
       <guid>https://domscruton.github.io/project/spotify/spotify/</guid>
