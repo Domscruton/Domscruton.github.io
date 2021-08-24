@@ -5,7 +5,7 @@
     <link>https://domscruton.github.io/tag/glms/</link>
       <atom:link href="https://domscruton.github.io/tag/glms/index.xml" rel="self" type="application/rss+xml" />
     <description>GLMs</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2021 Dominic Scruton</copyright><lastBuildDate>Sun, 01 Aug 2021 21:58:55 +0100</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2021 Dominic Scruton</copyright><lastBuildDate>Sun, 01 Aug 2021 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://domscruton.github.io/media/icon_huf497c2b2f164bad8bc149e8f8dbb116c_2858_512x512_fill_lanczos_center_3.png</url>
       <title>GLMs</title>
@@ -13,117 +13,40 @@
     </image>
     
     <item>
-      <title>GLMs: Intuition behind the Link Function and Derivation of Iteratively Reweighted Least Squares</title>
+      <title>GLMs: Intuition behind the Link function and Derivation of Iteratively Reweighted Least Squares</title>
       <link>https://domscruton.github.io/post/irls/</link>
-      <pubDate>Sun, 01 Aug 2021 21:58:55 +0100</pubDate>
+      <pubDate>Sun, 01 Aug 2021 00:00:00 +0000</pubDate>
       <guid>https://domscruton.github.io/post/irls/</guid>
-      <description>&lt;p&gt;&lt;em&gt;Intuition behind the Link function, discussion of the various model
-fitting techniques and their advantages &amp;amp; disadvantages, derivation of
-IRLS using Newton-Raphson and Fisher Scoring. IRLS is then implemented
-in R&lt;/em&gt;&lt;/p&gt;
-&lt;h2 id=&#34;glms---a-natural-extension-of-the-linear-model&#34;&gt;GLMs - A Natural Extension of the Linear Model&lt;/h2&gt;
-&lt;p&gt;The first model we naturally learn on any statistics-based course is
-Simple Linear Regression (SLR). Despite placing strong (linear)
-assumptions on the relationship between the response and covariates, as
-well as the error distribution if we are interested in statistical
-inference, the Linear model is a surprisingly useful tool for
-representing many natural processes. However, when we wish to deal with
-non-linear random variable generating processes, such as the probability
-of occurrence of an event from a binary or multinomial distribution, or
-for the modelling of counts within a given time period, we need to
-generalize the Linear Model.&lt;/p&gt;
-&lt;p&gt;Generalized Linear Models enable us to explicitly model the mean of a
-distribution from the exponential family, such that predictions lie in a
-feasible range and the relationship between the mean and the variance is
-appropriate to perform reliable inference. In this brief blog we discuss
-the intuition behind the Generalized Linear Model and Link function and
-prove the method of Iteratively ReWeighted Least Squares enables us to
-fit a GLM, before implementing it in R.&lt;/p&gt;
+      <description>
+
+
+&lt;p&gt;&lt;em&gt;Intuition behind the Link function, discussion of the various model fitting techniques and their advantages &amp;amp; disadvantages, derivation of IRLS using Newton-Raphson and Fisher Scoring. IRLS is then implemented in R&lt;/em&gt;&lt;/p&gt;
+&lt;div id=&#34;glms---a-natural-extension-of-the-linear-model&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;GLMs - A Natural Extension of the Linear Model&lt;/h2&gt;
+&lt;p&gt;The first model we naturally learn on any statistics-based course is Simple Linear Regression (SLR). Despite placing strong (linear) assumptions on the relationship between the response and covariates, as well as the error distribution if we are interested in statistical inference, the Linear model is a surprisingly useful tool for representing many natural processes. However, when we wish to deal with non-linear random variable generating processes, such as the probability of occurrence of an event from a binary or multinomial distribution, or for the modelling of counts within a given time period, we need to generalize the Linear Model.&lt;/p&gt;
+&lt;p&gt;Generalized Linear Models enable us to explicitly model the mean of a distribution from the exponential family, such that predictions lie in a feasible range and the relationship between the mean and the variance is appropriate to perform reliable inference. In this brief blog we discuss the intuition behind the Generalized Linear Model and Link function and prove the method of Iteratively ReWeighted Least Squares enables us to fit a GLM, before implementing it in R.&lt;/p&gt;
 &lt;p&gt;Generalized Linear Models have 3 components:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;1) Random Component Error Structure&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; ∼ &lt;em&gt;e&lt;strong&gt;x&lt;/strong&gt;p&lt;strong&gt;o&lt;/strong&gt;n&lt;strong&gt;e&lt;/strong&gt;n&lt;strong&gt;t&lt;/strong&gt;i&lt;strong&gt;a&lt;/strong&gt;l&lt;/em&gt; &lt;em&gt;f&lt;strong&gt;a&lt;/strong&gt;m&lt;strong&gt;i&lt;/strong&gt;l**y&lt;/em&gt; &lt;em&gt;d&lt;strong&gt;i&lt;/strong&gt;s&lt;strong&gt;t&lt;/strong&gt;i&lt;strong&gt;b&lt;/strong&gt;u&lt;strong&gt;t&lt;/strong&gt;i&lt;strong&gt;o&lt;/strong&gt;n&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;We also typically assume each &lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; is independent and
-identically distributed, although this assumption can be relaxed through
-the use of Generalized Estimating Equations (GEE&amp;rsquo;s).&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[y_i \sim exponential \; family \; distibution\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;We also typically assume each &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; is independent and identically distributed, although this assumption can be relaxed through the use of Generalized Estimating Equations (GEE&#39;s).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;2) Systematic Component/ Linear Predictor&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;$$\eta_i = \beta_0 + \sum_{i = 1}^{p}\beta_p x_{i, p}$$&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\eta_i = \beta_0 + \sum_{i = 1}^{p}\beta_p x_{i, p}\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;3) Link Function&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;𝔼[&lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;|&lt;em&gt;x&lt;/em&gt;&lt;sub&gt;1, &lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;, &amp;hellip;, &lt;em&gt;x&lt;/em&gt;&lt;sub&gt;&lt;em&gt;p&lt;/em&gt;, &lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;]=&lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;
-&lt;em&gt;g&lt;/em&gt;(&lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;)=&lt;em&gt;η&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;&lt;/p&gt;
-&lt;p&gt;It should be made clear that we are not modellig the response
-&lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; explicitly, but rather modelling the mean of the
-distibution, &lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;. Predictions for each observation &lt;em&gt;i&lt;/em&gt; are
-given by &lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;, with each &lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; assumed to be
-centred around &lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; in expectation but with an error term
-that has a distibution specified by the member of the exponential family
-used. Therefore, the link function does not transform the response
-&lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; but instead transforms the mean &lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;.
-Note that the linear model is a specific type of GLM, where
-&lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; ∼ &lt;em&gt;N&lt;strong&gt;o&lt;/strong&gt;r&lt;strong&gt;m&lt;/strong&gt;a**l&lt;/em&gt; and
-$g(\mu_i) = \mu_i = \eta_i = \beta_0 + \sum_{i = 1}^{p}\beta_p x_{i, p}$.
-For a Poisson GLM, each &lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; is a r.v. simulated from the
-Poisson distribution with mean &lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;, hence
-&lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; has a Poisson error distribution, the difference
-between &lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; and $\hat{y_i} = \mu_i$.&lt;/p&gt;
-&lt;h2 id=&#34;link-functions&#34;&gt;Link Functions&lt;/h2&gt;
-&lt;p&gt;So Generalized Linear models are simply a natural extension of the
-Linear Model. They differ through the explicit introduction of a link
-function (the link function for the linear model is simply the identity,
-&lt;em&gt;g&lt;/em&gt;(&lt;em&gt;μ&lt;/em&gt;)=&lt;em&gt;μ&lt;/em&gt;) and through the specification of a mean-variance
-relationship (the response belongs to a member of the exponential
-family). Using a link function allows us to transform values of the
-linear predictor to predictions of the mean, such that these predictions
-are always contained within the range of possible values for the mean,
-&lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;.&lt;/p&gt;
-&lt;p&gt;When choosing a link function, there is no &amp;lsquo;correct&amp;rsquo; choice, however
-there are a few properties we require to be able to interpret and fit a
-model:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;The link function transforms the linear predictor such that the
-prediction of &lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; for each &lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; is within
-the range of possible values of &lt;em&gt;μ&lt;/em&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The link function must be &lt;em&gt;monotonic&lt;/em&gt; and therefore have a &lt;em&gt;unique
-inverse&lt;/em&gt;. That is, each value on the linear predictor must be mapped
-to a unique value of the mean and the link function must preserve
-the order/ranking of predictions.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The link function must be &lt;em&gt;differentiable&lt;/em&gt;, in order to estimate
-model coefficients.&lt;/p&gt;
-&lt;/li&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathop{\mathbb{E}}[y_i | x_{1, i}, ..., x_{p, i}] = \mu_i\]&lt;/span&gt; &lt;span class=&#34;math display&#34;&gt;\[g(\mu_i) = \eta_i\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;It should be made clear that we are not modellig the response &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; explicitly, but rather modelling the mean of the distibution, &lt;span class=&#34;math inline&#34;&gt;\(\mu_i\)&lt;/span&gt;. Predictions for each observation &lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt; are given by &lt;span class=&#34;math inline&#34;&gt;\(\mu_i\)&lt;/span&gt;, with each &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; assumed to be centred around &lt;span class=&#34;math inline&#34;&gt;\(\mu_i\)&lt;/span&gt; in expectation but with an error term that has a distibution specified by the member of the exponential family used. Therefore, the link function does not transform the response &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; but instead transforms the mean &lt;span class=&#34;math inline&#34;&gt;\(\mu_i\)&lt;/span&gt;. Note that the linear model is a specific type of GLM, where &lt;span class=&#34;math inline&#34;&gt;\(y_i \sim Normal\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(g(\mu_i) = \mu_i = \eta_i = \beta_0 + \sum_{i = 1}^{p}\beta_p x_{i, p}\)&lt;/span&gt;. For a Poisson GLM, each &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; is a r.v. simulated from the Poisson distribution with mean &lt;span class=&#34;math inline&#34;&gt;\(\mu_i\)&lt;/span&gt;, hence &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; has a Poisson error distribution, the difference between &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\hat{y_i} = \mu_i\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;link-functions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Link Functions&lt;/h2&gt;
+&lt;p&gt;So Generalized Linear models are simply a natural extension of the Linear Model. They differ through the explicit introduction of a link function (the link function for the linear model is simply the identity, &lt;span class=&#34;math inline&#34;&gt;\(g(\mu) = \mu\)&lt;/span&gt;) and through the specification of a mean-variance relationship (the response belongs to a member of the exponential family). Using a link function allows us to transform values of the linear predictor to predictions of the mean, such that these predictions are always contained within the range of possible values for the mean, &lt;span class=&#34;math inline&#34;&gt;\(\mu_i\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;When choosing a link function, there is no &#39;correct&#39; choice, however there are a few properties we require to be able to interpret and fit a model:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;The link function transforms the linear predictor such that the prediction of &lt;span class=&#34;math inline&#34;&gt;\(\mu_i\)&lt;/span&gt; for each &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; is within the range of possible values of &lt;span class=&#34;math inline&#34;&gt;\(\mu\)&lt;/span&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The link function must be &lt;em&gt;monotonic&lt;/em&gt; and therefore have a &lt;em&gt;unique inverse&lt;/em&gt;. That is, each value on the linear predictor must be mapped to a unique value of the mean and the link function must preserve the order/ranking of predictions.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The link function must be &lt;em&gt;differentiable&lt;/em&gt;, in order to estimate model coefficients.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;For OLS, the linear predictor &lt;em&gt;X**β&lt;/em&gt; can take on any value in the range
-( − ∞, ∞). For a Poisson model, we require the rate parameter &lt;em&gt;μ&lt;/em&gt;
-(equivalent to the commonly used &lt;em&gt;λ&lt;/em&gt;), to lie in the range (0, ∞), thus
-we need a link function that transforms the linear predictor &lt;em&gt;η&lt;/em&gt; to lie
-in this range. The common choice of link function for a Poisson GLM is
-the log-link (log(&lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;)=&lt;em&gt;η&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;). Exponentiating
-the linear predictor results in &lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; ∈ (0, ∞) as required
-for count data modeled via a Poisson. The log-link also results in a
-nice interpretation, since it exponentiates the linear predictor
-resulting in a multiplication of exponentiated coefficients:
-$log(\mu_i) = exp(\b_0 + \beta_1 x_{1, i}) = \exp(\beta_0) \exp(\beta_1 x_{1, i})$.
-Note that we can&amp;rsquo;t use the square root function as a link function since
-it does not have a &lt;em&gt;unique inverse&lt;/em&gt; (i.e. $\sqrt(4) = \pm 2$).&lt;/p&gt;
-&lt;p&gt;For the Binomial, we choose a link function that maps &lt;em&gt;p&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;,
-the probability of success to the interval [0, 1]. The link function
-$g(\mu_i) = log(\frac{p_i}{n - p_i}) = X \beta_i$ is one
-candidate. This transforms the Linear predictor:
-$\frac{p_i}{1 - p_i} = \exp(X \beta_i)$
-$\implies p_i = (\frac{e^{X \beta_i}}{1 + e ^ {X \beta_i}}) \in [0, 1]$
-to the required range.&lt;/p&gt;
-&lt;p&gt;Whilst we are able to choose any link function that satisfies these
-properties, the usual choice is to select the &lt;em&gt;Canonical&lt;/em&gt; link function,
-which arises from writing the distribution in its exponential form.
-These link functions have nice mathematical properties and simplify the
-derivation of the Maximum Likelihood Estimators. We could also use an
-Information Criteria such as AIC to choose the best-fitting link
-function, although there is typically little deviation in performance,
-so we typically choose the link function with the most intuitive
-interpretation (which is often the canonical link function anyway).&lt;/p&gt;
+&lt;p&gt;For OLS, the linear predictor &lt;span class=&#34;math inline&#34;&gt;\(X\beta\)&lt;/span&gt; can take on any value in the range &lt;span class=&#34;math inline&#34;&gt;\((-\infty, \infty)\)&lt;/span&gt;. For a Poisson model, we require the rate parameter &lt;span class=&#34;math inline&#34;&gt;\(\mu\)&lt;/span&gt; (equivalent to the commonly used &lt;span class=&#34;math inline&#34;&gt;\(\lambda\)&lt;/span&gt;), to lie in the range &lt;span class=&#34;math inline&#34;&gt;\((0, \infty)\)&lt;/span&gt;, thus we need a link function that transforms the linear predictor &lt;span class=&#34;math inline&#34;&gt;\(\eta\)&lt;/span&gt; to lie in this range. The common choice of link function for a Poisson GLM is the log-link (&lt;span class=&#34;math inline&#34;&gt;\(\log(\mu_i) = \eta_i\)&lt;/span&gt;). Exponentiating the linear predictor results in &lt;span class=&#34;math inline&#34;&gt;\(\mu_i \in (0, \infty)\)&lt;/span&gt; as required for count data modeled via a Poisson. The log-link also results in a nice interpretation, since it exponentiates the linear predictor resulting in a multiplication of exponentiated coefficients: &lt;span class=&#34;math inline&#34;&gt;\(log(\mu_i) = exp(\b_0 + \beta_1 x_{1, i}) = \exp(\beta_0) \exp(\beta_1 x_{1, i})\)&lt;/span&gt;. Note that we can&#39;t use the square root function as a link function since it does not have a &lt;em&gt;unique inverse&lt;/em&gt; (i.e. &lt;span class=&#34;math inline&#34;&gt;\(\sqrt(4) = \pm 2\)&lt;/span&gt;).&lt;/p&gt;
+&lt;p&gt;For the Binomial, we choose a link function that maps &lt;span class=&#34;math inline&#34;&gt;\(p_i\)&lt;/span&gt;, the probability of success to the interval &lt;span class=&#34;math inline&#34;&gt;\([0, 1]\)&lt;/span&gt;. The link function &lt;span class=&#34;math inline&#34;&gt;\(g(\mu_i) = log(\frac{p_i}{n - p_i}) = X \beta_i\)&lt;/span&gt; is one candidate. This transforms the Linear predictor: &lt;span class=&#34;math inline&#34;&gt;\(\frac{p_i}{1 - p_i} = \exp(X \beta_i)\)&lt;/span&gt; &lt;span class=&#34;math inline&#34;&gt;\(\implies p_i = (\frac{e^{X \beta_i}}{1 + e ^ {X \beta_i}}) \in [0, 1]\)&lt;/span&gt; to the required range.&lt;/p&gt;
+&lt;p&gt;Whilst we are able to choose any link function that satisfies these properties, the usual choice is to select the &lt;em&gt;Canonical&lt;/em&gt; link function, which arises from writing the distribution in its exponential form. These link functions have nice mathematical properties and simplify the derivation of the Maximum Likelihood Estimators. We could also use an Information Criteria such as AIC to choose the best-fitting link function, although there is typically little deviation in performance, so we typically choose the link function with the most intuitive interpretation (which is often the canonical link function anyway).&lt;/p&gt;
 &lt;p&gt;Some common distributions and Canonical links are show below:&lt;/p&gt;
 &lt;table&gt;
 &lt;colgroup&gt;
@@ -134,307 +57,168 @@ interpretation (which is often the canonical link function anyway).&lt;/p&gt;
 &lt;thead&gt;
 &lt;tr class=&#34;header&#34;&gt;
 &lt;th&gt;Family&lt;/th&gt;
-&lt;th&gt;Canonical Link (&lt;span class=&#34;math inline&#34;&gt;&lt;em&gt;η&lt;/em&gt; = &lt;em&gt;g&lt;/em&gt;(&lt;em&gt;μ&lt;/em&gt;)&lt;/span&gt;)&lt;/th&gt;
-&lt;th&gt;Inverse Link (&lt;span class=&#34;math inline&#34;&gt;&lt;em&gt;μ&lt;/em&gt; = &lt;em&gt;g&lt;/em&gt;&lt;sup&gt;−1&lt;/sup&gt;(&lt;em&gt;η&lt;/em&gt;)&lt;/span&gt;)&lt;/th&gt;
+&lt;th&gt;Canonical Link (&lt;span class=&#34;math inline&#34;&gt;\(\eta = g(\mu)\)&lt;/span&gt;)&lt;/th&gt;
+&lt;th&gt;Inverse Link (&lt;span class=&#34;math inline&#34;&gt;\(\mu = g^{-1}(\eta)\)&lt;/span&gt;)&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;Binomial&lt;/td&gt;
-&lt;td&gt;Logit: &lt;span class=&#34;math inline&#34;&gt;$\eta = log \left( \frac{\mu}{n - \mu} \right)$&lt;/span&gt;&lt;/td&gt;
-&lt;td&gt;&lt;span class=&#34;math inline&#34;&gt;$\mu = \frac{n}{1 + e^{-n}}$&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;Logit: &lt;span class=&#34;math inline&#34;&gt;\(\eta = log \left( \frac{\mu}{n - \mu} \right)\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class=&#34;math inline&#34;&gt;\(\mu = \frac{n}{1 + e^{-n}}\)&lt;/span&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;Gaussian&lt;/td&gt;
-&lt;td&gt;Identity: &lt;span class=&#34;math inline&#34;&gt;&lt;em&gt;η&lt;/em&gt; = &lt;em&gt;μ&lt;/em&gt;&lt;/span&gt;&lt;/td&gt;
-&lt;td&gt;&lt;span class=&#34;math inline&#34;&gt;&lt;em&gt;μ&lt;/em&gt; = &lt;em&gt;η&lt;/em&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;Identity: &lt;span class=&#34;math inline&#34;&gt;\(\eta = \mu\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class=&#34;math inline&#34;&gt;\(\mu = \eta\)&lt;/span&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;Poisson&lt;/td&gt;
-&lt;td&gt;Log: &lt;span class=&#34;math inline&#34;&gt;&lt;em&gt;η&lt;/em&gt; = &lt;em&gt;l&lt;/em&gt;&lt;em&gt;o&lt;/em&gt;&lt;em&gt;g&lt;/em&gt;(&lt;em&gt;μ&lt;/em&gt;)&lt;/span&gt;&lt;/td&gt;
-&lt;td&gt;&lt;span class=&#34;math inline&#34;&gt;&lt;em&gt;μ&lt;/em&gt; = &lt;em&gt;e&lt;/em&gt;&lt;sup&gt;&lt;em&gt;η&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;Log: &lt;span class=&#34;math inline&#34;&gt;\(\eta = log(\mu)\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class=&#34;math inline&#34;&gt;\(\mu = e^{\eta}\)&lt;/span&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;Gamma&lt;/td&gt;
-&lt;td&gt;Inverse: &lt;span class=&#34;math inline&#34;&gt;$\eta = \frac{1}{\mu}$&lt;/span&gt;&lt;/td&gt;
-&lt;td&gt;&lt;span class=&#34;math inline&#34;&gt;$\mu = \frac{1}{\eta}$&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;Inverse: &lt;span class=&#34;math inline&#34;&gt;\(\eta = \frac{1}{\mu}\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class=&#34;math inline&#34;&gt;\(\mu = \frac{1}{\eta}\)&lt;/span&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id=&#34;the-exponential-family-of-distributions&#34;&gt;The Exponential Family of Distributions&lt;/h2&gt;
-&lt;p&gt;A random variable y has a distribution within the exponential family if
-its probability density function is of the form:&lt;/p&gt;
-&lt;p&gt;$$f(y;\theta, \phi) = exp \left( \frac{y \theta - b(\theta)}{a(\phi)} + c(y, \phi) \right)$$&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-exponential-family-of-distributions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Exponential Family of Distributions&lt;/h2&gt;
+&lt;p&gt;A random variable y has a distribution within the exponential family if its probability density function is of the form:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[f(y;\theta, \phi) = exp \left( \frac{y \theta - b(\theta)}{a(\phi)} + c(y, \phi) \right)\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;where:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;θ&lt;/em&gt; is the location parameter of the distribution&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;a&lt;/em&gt;(&lt;em&gt;ϕ&lt;/em&gt;) is the scale/dispersion parameter&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;c&lt;/em&gt;(&lt;em&gt;y&lt;/em&gt;, &lt;em&gt;ϕ&lt;/em&gt;) is a normalization term&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(\theta\)&lt;/span&gt; is the location parameter of the distribution&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(a(\phi)\)&lt;/span&gt; is the scale/dispersion parameter&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(c(y, \phi)\)&lt;/span&gt; is a normalization term&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;It can also be shown that 𝔼[&lt;em&gt;y&lt;/em&gt;]=&lt;em&gt;b&lt;/em&gt;′(&lt;em&gt;θ&lt;/em&gt;) and
-&lt;em&gt;V&lt;strong&gt;a&lt;/strong&gt;r&lt;/em&gt;[&lt;em&gt;y&lt;/em&gt;]=&lt;em&gt;b&lt;/em&gt;″(&lt;em&gt;θ&lt;/em&gt;)&lt;em&gt;a&lt;/em&gt;(&lt;em&gt;ϕ&lt;/em&gt;).&lt;/p&gt;
-&lt;h2 id=&#34;likelihood-analysis-and-newton-raphson-method&#34;&gt;Likelihood Analysis and Newton-Raphson Method&lt;/h2&gt;
-&lt;p&gt;The fitting of any form of Statistical Learning algorithm involves an
-optimization problem. Optimization refers to the task of either
-minimizing or maximizing some function &lt;em&gt;f&lt;/em&gt;(&lt;strong&gt;β&lt;/strong&gt;) by altering &lt;em&gt;β&lt;/em&gt;. We
-usually phrase most optimization problems in terms of minimizing
-&lt;em&gt;f&lt;/em&gt;(&lt;em&gt;β&lt;/em&gt;). For the case of parametric learning models (we place
-distributional assumptions on the target/response &lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;,
-such that they are drawn independently from some probability
-distribution &lt;em&gt;p&lt;/em&gt;&lt;sub&gt;&lt;em&gt;m&lt;strong&gt;o&lt;/strong&gt;d&lt;strong&gt;e&lt;/strong&gt;l&lt;/em&gt;&lt;/sub&gt;(&lt;em&gt;y&lt;/em&gt;, &lt;em&gt;θ&lt;/em&gt;)), we we can also
-use the process of Maximum Likelihood to find model coefficients. Under
-this approach, we have the following optimization problem:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;β&lt;/strong&gt;&lt;sup&gt;*&lt;/sup&gt; = &lt;em&gt;a&lt;strong&gt;r&lt;/strong&gt;g&lt;strong&gt;m&lt;/strong&gt;a**x&lt;/em&gt;(&lt;em&gt;l&lt;/em&gt;(&lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;|&lt;strong&gt;β&lt;/strong&gt;))&lt;/p&gt;
-&lt;p&gt;where &lt;em&gt;l&lt;/em&gt;(&lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;) is the likelihood function. The likelihood
-can be interpreted as the probability of seeing the data in our sample
-given the parameters and we naturally wish to maximize this quantity to
-obtain a good model fit.&lt;/p&gt;
+&lt;p&gt;It can also be shown that &lt;span class=&#34;math inline&#34;&gt;\(\mathop{\mathbb{E}}[y] = b&amp;#39;(\theta)\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(Var[y] = b&amp;#39;&amp;#39;(\theta) a(\phi)\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;likelihood-analysis-and-newton-raphson-method&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Likelihood Analysis and Newton-Raphson Method&lt;/h2&gt;
+&lt;p&gt;The fitting of any form of Statistical Learning algorithm involves an optimization problem. Optimization refers to the task of either minimizing or maximizing some function &lt;span class=&#34;math inline&#34;&gt;\(f(\mathbf{\beta})\)&lt;/span&gt; by altering &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;. We usually phrase most optimization problems in terms of minimizing &lt;span class=&#34;math inline&#34;&gt;\(f(\beta)\)&lt;/span&gt;. For the case of parametric learning models (we place distributional assumptions on the target/response &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt;, such that they are drawn independently from some probability distribution &lt;span class=&#34;math inline&#34;&gt;\(p_{model}(y, \theta)\)&lt;/span&gt;), we we can also use the process of Maximum Likelihood to find model coefficients. Under this approach, we have the following optimization problem:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathbf{\beta}^* =arg max(l(y_i | \mathbf{\beta}))\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(l(y_i)\)&lt;/span&gt; is the likelihood function. The likelihood can be interpreted as the probability of seeing the data in our sample given the parameters and we naturally wish to maximize this quantity to obtain a good model fit.&lt;/p&gt;
+&lt;div class=&#34;alert alert-info&#34;&gt;
 &lt;p&gt;&lt;strong&gt;Why Maximum Likelihood?&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;There are several reasons why the process of Maximum Likelihood is
-preferential:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Simple and intuitive method to find estimates for any &lt;em&gt;parametric&lt;/em&gt;
-model.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;For large samples, MLE&amp;rsquo;s have useful properties, assuming large n
-and i.i.d (independent and identically distributed) samples&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;$\mathop{\mathbb{E}}[\hat{\theta}_{MLE}] = \theta$
-(&lt;strong&gt;Unbiased&lt;/strong&gt;)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;$Var(\hat{\theta}_{MLE}) = \frac{1}{n I(\theta)}$, where
-&lt;em&gt;I&lt;/em&gt;(&lt;em&gt;θ&lt;/em&gt;) is the Fisher Information in the sample. That is, we
-can calculate the variance of model coefficients and hence
-perform inference&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The MLE also achieves the &lt;strong&gt;Cramer Lower Bound&lt;/strong&gt;, that is it has
-the smallest variance of any estimator, thus is &lt;strong&gt;Asymptotically
-Efficient&lt;/strong&gt;.&lt;/p&gt;
-&lt;/li&gt;
+&lt;p&gt;There are several reasons why the process of Maximum Likelihood is preferential:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;Simple and intuitive method to find estimates for any &lt;em&gt;parametric&lt;/em&gt; model.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For large samples, MLE&#39;s have useful properties, assuming large n and i.i.d (independent and identically distributed) samples&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: lower-alpha&#34;&gt;
+&lt;li&gt;&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(\mathop{\mathbb{E}}[\hat{\theta}_{MLE}] = \theta\)&lt;/span&gt; (&lt;strong&gt;Unbiased&lt;/strong&gt;)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(Var(\hat{\theta}_{MLE}) = \frac{1}{n I(\theta)}\)&lt;/span&gt;, where &lt;span class=&#34;math inline&#34;&gt;\(I(\theta)\)&lt;/span&gt; is the Fisher Information in the sample. That is, we can calculate the variance of model coefficients and hence perform inference&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The MLE also achieves the &lt;strong&gt;Cramer Lower Bound&lt;/strong&gt;, that is it has the smallest variance of any estimator, thus is &lt;strong&gt;Asymptotically Efficient&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;However, there are several disadvantages to Maximum Likelihood,
-particularly if the purpose of modelling is for prediction. Under
-Maximum Likelihood, we fit exactly to the training dataset,
-resulting in overfitting and poor generalization to unseen data.&lt;/p&gt;
-&lt;/li&gt;
+However, there are several disadvantages to Maximum Likelihood, particularly if the purpose of modelling is for prediction. Under Maximum Likelihood, we fit exactly to the training dataset, resulting in overfitting and poor generalization to unseen data.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Consider the general form of the probability density function for a
-member of the exponential family of distributions:&lt;/p&gt;
-&lt;p&gt;$$f(y;\theta, \phi) = exp \left( \frac{y \theta - b(\theta)}{a(\phi)} + c(y, \phi) \right)$$&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Consider the general form of the probability density function for a member of the exponential family of distributions:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[f(y;\theta, \phi) = exp \left( \frac{y \theta - b(\theta)}{a(\phi)} + c(y, \phi) \right)\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;The likelihood is then (assuming independence of observations):&lt;/p&gt;
-&lt;p&gt;$$L(f(y_i)) = \prod_{i = 1}^n exp \left( \frac{1}{a(\phi)} (y_i \theta_i - b(\theta_i) + c(y_i, \phi) \right)$$&lt;/p&gt;
-&lt;p&gt;with log-likelihood (since the log of the product of exponentials is the
-sum of the exponentiated terms):&lt;/p&gt;
-&lt;p&gt;$$log(L(f(y_i))) = l(f(y_i)) = \sum_{i = 1}^n \frac{1}{a(\phi)}(y_i \theta_i - b(\theta_i)) + c(y_i, \phi)$$&lt;/p&gt;
-&lt;p&gt;Since the logarithmic function is monotonically increasing, order is
-preserved hence finding the maximum of the log-likelihood yields the
-same result as finding the maximum of the likelihood. We wish to
-maximize this log-likelihood, hence we can differentiate, equate to zero
-and solve for &lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;j&lt;/em&gt;&lt;/sub&gt; (We could also ensure the second
-derivative evaluated at &lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;j&lt;/em&gt;&lt;/sub&gt; is negative, therefore we have
-maximized (and not minimized) the log-likelihood). Via the Chain Rule we
-have:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[L(f(y_i)) = \prod_{i = 1}^n exp \left( \frac{1}{a(\phi)} (y_i \theta_i - b(\theta_i) + c(y_i, \phi) \right)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;with log-likelihood (since the log of the product of exponentials is the sum of the exponentiated terms):&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[log(L(f(y_i))) = l(f(y_i)) = \sum_{i = 1}^n \frac{1}{a(\phi)}(y_i \theta_i - b(\theta_i)) + c(y_i, \phi)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Since the logarithmic function is monotonically increasing, order is preserved hence finding the maximum of the log-likelihood yields the same result as finding the maximum of the likelihood. We wish to maximize this log-likelihood, hence we can differentiate, equate to zero and solve for &lt;span class=&#34;math inline&#34;&gt;\(\beta_j\)&lt;/span&gt; (We could also ensure the second derivative evaluated at &lt;span class=&#34;math inline&#34;&gt;\(\beta_j\)&lt;/span&gt; is negative, therefore we have maximized (and not minimized) the log-likelihood). Via the Chain Rule we have:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Equation 1&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;$$\frac{\partial l(f(y_i))}{\partial \beta_j} = \sum_{i = 1}^n \frac{\partial l(f(y_i))}{\partial \theta_i} \frac{\partial \theta_i}{\partial \mu_i} \frac{\partial \mu_i}{\partial \eta_i} \frac{\partial \eta_i}{\partial \beta_j} = 0$$&lt;/p&gt;
-&lt;p&gt;This is also known as the Score function, since it tells us how
-sensitive the model is to changes in &lt;em&gt;β&lt;/em&gt; at a given value of &lt;em&gt;β&lt;/em&gt;. Since
-we differentiate with respect to each coefficent, &lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;j&lt;/em&gt;&lt;/sub&gt;
-(&lt;em&gt;j&lt;/em&gt; ∈ [0, 1, &amp;hellip;, &lt;em&gt;K&lt;/em&gt;]), we have a system of (&lt;em&gt;K&lt;/em&gt; + 1) equations to
-solve.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\frac{\partial l(f(y_i))}{\partial \beta_j} = \sum_{i = 1}^n \frac{\partial l(f(y_i))}{\partial \theta_i} \frac{\partial \theta_i}{\partial \mu_i} \frac{\partial \mu_i}{\partial \eta_i} \frac{\partial \eta_i}{\partial \beta_j} = 0\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;This is also known as the Score function, since it tells us how sensitive the model is to changes in &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; at a given value of &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;. Since we differentiate with respect to each coefficent, &lt;span class=&#34;math inline&#34;&gt;\(\beta_j\)&lt;/span&gt; (&lt;span class=&#34;math inline&#34;&gt;\(j \in [0, 1, ..., K]\)&lt;/span&gt;), we have a system of &lt;span class=&#34;math inline&#34;&gt;\((K + 1)\)&lt;/span&gt; equations to solve.&lt;/p&gt;
+&lt;div class=&#34;alert alert-info&#34;&gt;
 &lt;p&gt;&lt;strong&gt;Chain Rule&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The Chain Rule is often used in Optimization problems. Here we can
-utilize the chain rule by recognizing that, as seen in &lt;strong&gt;3.1&lt;/strong&gt;, the
-likelihood is a function of the location parameter of the distribution,
-&lt;em&gt;θ&lt;/em&gt;, which in turn is a function of the mean &lt;em&gt;μ&lt;/em&gt;. Via the link function,
-we have that &lt;em&gt;g&lt;/em&gt;(&lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;)=&lt;em&gt;η&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; and via the linear
-predictor,
-$\eta_i = \beta_0 + \sum_{i = 1}^{p}\beta_p x_{i, p}$.&lt;/p&gt;
+&lt;p&gt;The Chain Rule is often used in Optimization problems. Here we can utilize the chain rule by recognizing that, as seen in &lt;strong&gt;3.1&lt;/strong&gt;, the likelihood is a function of the location parameter of the distribution, &lt;span class=&#34;math inline&#34;&gt;\(\theta\)&lt;/span&gt;, which in turn is a function of the mean &lt;span class=&#34;math inline&#34;&gt;\(\mu\)&lt;/span&gt;. Via the link function, we have that &lt;span class=&#34;math inline&#34;&gt;\(g(\mu_i) = \eta_i\)&lt;/span&gt; and via the linear predictor, &lt;span class=&#34;math inline&#34;&gt;\(\eta_i = \beta_0 + \sum_{i = 1}^{p}\beta_p x_{i, p}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/div&gt;
 &lt;p&gt;Each of these individual partial derivatives can then be identified:&lt;/p&gt;
-&lt;p&gt;$$\frac{\partial l_i}{\partial \theta_i} = \frac{y_i - b&#39;(\theta_i)}{a(\phi)}$$&lt;/p&gt;
-&lt;p&gt;$$\frac{\partial \theta_i}{\partial \mu_i} = \frac{1}{V(\mu_i)}$$&lt;/p&gt;
-&lt;p&gt;since $\frac{\mu_i}{\theta_i} = b&#39;&#39;(\theta_i) = V(\mu_i)$ where
-V is the variance function of the model as it dictates the mean-variance
-relationship.&lt;/p&gt;
-&lt;p&gt;$$\frac{\partial \mu_i}{\partial \eta_i} = \frac{1}{g&#39;(\mu_i)}$$&lt;/p&gt;
-&lt;p&gt;since
-$g(\mu_i) = \eta_i \implies \frac{\partial \eta_i}{\partial \mu_i} = g&#39;(\mu_i)$.
-Finally:&lt;/p&gt;
-&lt;p&gt;$$\frac{\partial \eta_i}{\partial \beta_j} = x_j$$&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\frac{\partial l_i}{\partial \theta_i} = \frac{y_i - b&amp;#39;(\theta_i)}{a(\phi)}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\frac{\partial \theta_i}{\partial \mu_i} = \frac{1}{V(\mu_i)}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;since &lt;span class=&#34;math inline&#34;&gt;\(\frac{\mu_i}{\theta_i} = b&amp;#39;&amp;#39;(\theta_i) = V(\mu_i)\)&lt;/span&gt; where V is the variance function of the model as it dictates the mean-variance relationship.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\frac{\partial \mu_i}{\partial \eta_i} = \frac{1}{g&amp;#39;(\mu_i)}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;since &lt;span class=&#34;math inline&#34;&gt;\(g(\mu_i) = \eta_i \implies \frac{\partial \eta_i}{\partial \mu_i} = g&amp;#39;(\mu_i)\)&lt;/span&gt;. Finally:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\frac{\partial \eta_i}{\partial \beta_j} = x_j\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Putting this all together yields the Maximum Likelihood Equations:&lt;/p&gt;
-&lt;p&gt;$$\sum_{i = 1}^n \frac{(y_i - \mu_i) x_{i, j}}{a(\phi) V(\mu_i) g&#39;(\mu_i)} = 0$$&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Least Square Vs Maximum Likelihood&lt;/strong&gt; If we assume a
-normal distribution, there are two methods to solve exactly for the
-coefficients (we could also use Gradient Descent however this does not
-typically yield an exact solution).&lt;/p&gt;
-&lt;p&gt;However, this does not have a closed form solution (what does it mean
-for a linear system of equations to have a closed form solultion)
-(except for the normal distribution). As a sanity check to confirm our
-conclusions thus far, note that for the normal distribution we have the
-Normal Equations which have the standard closed form solution (what is
-it)?. The Maximum Likelihood equations are a set of equations for the
-regression coefficients &lt;strong&gt;β&lt;/strong&gt; = (&lt;em&gt;β&lt;/em&gt;&lt;sub&gt;0&lt;/sub&gt;, &amp;hellip;, &lt;em&gt;β&lt;/em&gt;&lt;sub&gt;1&lt;/sub&gt;)&lt;/p&gt;
-&lt;p&gt;Effectively, we need to find coefficients &lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;j&lt;/em&gt;&lt;/sub&gt; (which for
-each observation &lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; affect our prediction of
-&lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;, &lt;em&gt;g&lt;/em&gt;′(&lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;) and &lt;em&gt;V&lt;/em&gt;(&lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;)
-via our distributional assumptions for the relationship between the mean
-and the variance), such that summing these terms over all observations
-gives 0. To solve this, we use the Newton - Raphson Method&lt;/p&gt;
-&lt;h2 id=&#34;iteratively-reweighted-least-squares-irls&#34;&gt;Iteratively Reweighted Least Squares (IRLS)&lt;/h2&gt;
-&lt;p&gt;Recall the Newton - Raphson method for a single dimension. We wish to
-find the root of the function (in this case the value of &lt;em&gt;β&lt;/em&gt; such that
-the derivative of the log-likelihood is 0). In One-Dimension, to find
-the root of function f we have:&lt;/p&gt;
-&lt;p&gt;$$x_{t+1} = x_t - \frac{f(x_t)}{f&#39;(x_t)}$$&lt;/p&gt;
-&lt;p&gt;The closer &lt;em&gt;f&lt;/em&gt;(&lt;em&gt;x&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;) is to 0, the closer we are to the
-root, hence the step change between iterations will be smaller.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\sum_{i = 1}^n \frac{(y_i - \mu_i) x_{i, j}}{a(\phi) V(\mu_i) g&amp;#39;(\mu_i)} = 0\]&lt;/span&gt;&lt;/p&gt;
+&lt;div class=&#34;alert alert-info&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Least Square Vs Maximum Likelihood&lt;/strong&gt; If we assume a normal distribution, there are two methods to solve exactly for the coefficients (we could also use Gradient Descent however this does not typically yield an exact solution).&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;However, this does not have a closed form solution (what does it mean for a linear system of equations to have a closed form solultion) (except for the normal distribution). As a sanity check to confirm our conclusions thus far, note that for the normal distribution we have the Normal Equations which have the standard closed form solution (what is it)?. The Maximum Likelihood equations are a set of equations for the regression coefficients &lt;span class=&#34;math inline&#34;&gt;\(\mathbf{\beta} = (\beta_0, ..., \beta_1)\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Effectively, we need to find coefficients &lt;span class=&#34;math inline&#34;&gt;\(\beta_j\)&lt;/span&gt; (which for each observation &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; affect our prediction of &lt;span class=&#34;math inline&#34;&gt;\(\mu_i\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(g&amp;#39;(\mu_i)\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(V(\mu_i)\)&lt;/span&gt; via our distributional assumptions for the relationship between the mean and the variance), such that summing these terms over all observations gives 0. To solve this, we use the Newton - Raphson Method&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iteratively-reweighted-least-squares-irls&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Iteratively Reweighted Least Squares (IRLS)&lt;/h2&gt;
+&lt;p&gt;Recall the Newton - Raphson method for a single dimension. We wish to find the root of the function (in this case the value of &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; such that the derivative of the log-likelihood is 0). In One-Dimension, to find the root of function f we have:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[x_{t+1} = x_t - \frac{f(x_t)}{f&amp;#39;(x_t)}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The closer &lt;span class=&#34;math inline&#34;&gt;\(f(x_t)\)&lt;/span&gt; is to 0, the closer we are to the root, hence the step change between iterations will be smaller.&lt;/p&gt;
 &lt;center&gt;
 &lt;img src=&#34;NewtonRaphson.png&#34; alt=&#34;Newton Raphson Method in One Dimension&#34;, width = &#34;40%&#34;&gt;
 &lt;/center&gt;
-Instead of the log-likelihood function *f*(*x*), we want to optimize its
-derivative. Therefore we have the following Newton-Raphson equation in
-One-Dimension:
-&lt;p&gt;$$x_{t+1} = x_t - \frac{f&#39;(x_t)}{f&#39;&#39;(x_t)}$$&lt;/p&gt;
+&lt;p&gt;Instead of the log-likelihood function &lt;span class=&#34;math inline&#34;&gt;\(f(x)\)&lt;/span&gt;, we want to optimize its derivative. Therefore we have the following Newton-Raphson equation in One-Dimension:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[x_{t+1} = x_t - \frac{f&amp;#39;(x_t)}{f&amp;#39;&amp;#39;(x_t)}\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;or for the vector of coefficient estimates at iteration t:&lt;/p&gt;
-&lt;p&gt;$$\beta_{t+1} = \beta_t - \left( \frac{\partial l}{\partial \beta_j}(\beta_t) \right) \left( \frac{\partial^2 l}{\partial \beta_j \partial \beta_k} \right)^{-1}$$&lt;/p&gt;
-&lt;p&gt;The Newton-Raphson technique is derived by considering the &lt;em&gt;Taylor
-Expansion&lt;/em&gt; about the solution &lt;em&gt;β&lt;/em&gt;&lt;sup&gt;*&lt;/sup&gt; (that sets
-$\frac{\partial l}{\partial \beta}$ to zero).&lt;/p&gt;
-&lt;p&gt;$$0 = \frac{\partial l}{\partial \beta}(\beta^*) - (\beta - \beta^*) \frac{\partial^2 l}{\partial \beta_j \beta_k} + &amp;hellip;$$&lt;/p&gt;
-&lt;p&gt;If we ignore all derivative terms higher than 2&lt;sup&gt;&lt;em&gt;n**d&lt;/em&gt;&lt;/sup&gt; order,
-we can derive and iterative solution. Under the Newton-Raphson approach,
-the function being minimized is approximated locally by a quadratic
-function, and this approximated function is minimized exactly. We then
-have:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt; + 1&lt;/sub&gt; = &lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; − &lt;strong&gt;H&lt;/strong&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;&lt;sup&gt;−1&lt;/sup&gt;&lt;strong&gt;U&lt;/strong&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;&lt;/p&gt;
-&lt;p&gt;where
-&lt;strong&gt;U&lt;/strong&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;&lt;em&gt;i&lt;strong&gt;s&lt;/strong&gt;t&lt;strong&gt;h&lt;/strong&gt;e&lt;strong&gt;S&lt;/strong&gt;c&lt;strong&gt;o&lt;/strong&gt;r&lt;strong&gt;e&lt;/strong&gt;V&lt;strong&gt;e&lt;/strong&gt;c&lt;strong&gt;t&lt;/strong&gt;o**r&lt;/em&gt;
-evaluated at &lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;. &lt;strong&gt;H&lt;/strong&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; denotes the (p + 1)
-x (p + 1) Hessian matrix of second Derivatives&lt;/p&gt;
-&lt;p&gt;Given that
-$\frac{\partial l}{\beta_j} = \nabla_{\beta} l = \frac{(y_i - \mu_i)}{a(\phi)} \frac{x_{i,j}}{V(\mu_i)}\frac{1}{g&#39;(\mu_i)}$,
-the Hessian is then:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\beta_{t+1} = \beta_t - \left( \frac{\partial l}{\partial \beta_j}(\beta_t) \right) \left( \frac{\partial^2 l}{\partial \beta_j \partial \beta_k} \right)^{-1}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The Newton-Raphson technique is derived by considering the &lt;em&gt;Taylor Expansion&lt;/em&gt; about the solution &lt;span class=&#34;math inline&#34;&gt;\(\beta^*\)&lt;/span&gt; (that sets &lt;span class=&#34;math inline&#34;&gt;\(\frac{\partial l}{\partial \beta}\)&lt;/span&gt; to zero).&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[0 = \frac{\partial l}{\partial \beta}(\beta^*) - (\beta - \beta^*) \frac{\partial^2 l}{\partial \beta_j \beta_k} + ...\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;If we ignore all derivative terms higher than &lt;span class=&#34;math inline&#34;&gt;\(2^{nd}\)&lt;/span&gt; order, we can derive and iterative solution. Under the Newton-Raphson approach, the function being minimized is approximated locally by a quadratic function, and this approximated function is minimized exactly. We then have:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\beta_{t + 1} = \beta_t - \mathbf{H}^{-1}_t \mathbf{U}_t\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(\mathbf{U}_t is the Score Vector\)&lt;/span&gt; evaluated at &lt;span class=&#34;math inline&#34;&gt;\(\beta_t\)&lt;/span&gt;. &lt;span class=&#34;math inline&#34;&gt;\(\mathbf{H}_t\)&lt;/span&gt; denotes the (p + 1) x (p + 1) Hessian matrix of second Derivatives&lt;/p&gt;
+&lt;p&gt;Given that &lt;span class=&#34;math inline&#34;&gt;\(\frac{\partial l}{\beta_j} = \nabla_{\beta} l = \frac{(y_i - \mu_i)}{a(\phi)} \frac{x_{i,j}}{V(\mu_i)}\frac{1}{g&amp;#39;(\mu_i)}\)&lt;/span&gt;, the Hessian is then:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Equation 4&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;$$\nabla^{2}_{\beta} = \sum_{i = 1}^n \frac{x_{i,j}}{a(\phi)} \left( (y_i - \mu_i)&#39; \frac{1}{g&#39;(\mu_i)} \frac{1}{V(\mu_i)} + (y_i - \mu_i) \left( \frac{1}{g&#39;(\mu_i)} \frac{1}{V(\mu_i)} \right)&#39; \right)$$&lt;/p&gt;
-&lt;p&gt;by Product Rule. &lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; is a data point so does not depend on
-&lt;em&gt;β&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;$$\frac{\partial \mu_i}{\partial \beta_k} = \frac{\mu_i}{\eta_i} \frac{\eta_i}{\beta_k} = \frac{1}{g&#39;(\mu_i)} x_k$$&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\nabla^{2}_{\beta} = \sum_{i = 1}^n \frac{x_{i,j}}{a(\phi)} \left( (y_i - \mu_i)&amp;#39; \frac{1}{g&amp;#39;(\mu_i)} \frac{1}{V(\mu_i)} + (y_i - \mu_i) \left( \frac{1}{g&amp;#39;(\mu_i)} \frac{1}{V(\mu_i)} \right)&amp;#39; \right)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;by Product Rule. &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; is a data point so does not depend on &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\frac{\partial \mu_i}{\partial \beta_k} = \frac{\mu_i}{\eta_i} \frac{\eta_i}{\beta_k} = \frac{1}{g&amp;#39;(\mu_i)} x_k\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;hence the first term becomes:&lt;/p&gt;
-&lt;p&gt;$$\frac{x_{i,j}}{a(\phi)} \left( - \frac{x_{i, k}}{g&#39;(\mu_i)} \right) \frac{1}{g&#39;(\mu_i)} \frac{1}{V(\mu_i)} = - \frac{x_{i, j} x_{i, k}}{a(\phi)(g&#39;(\mu_i))^2} \frac{1}{V(\mu_i)}$$&lt;/p&gt;
-&lt;p&gt;Of course, if we differentiate by the same &lt;em&gt;β&lt;/em&gt;-coefficient, we have
-&lt;em&gt;x&lt;/em&gt;&lt;sub&gt;&lt;em&gt;j&lt;/em&gt;&lt;/sub&gt;&lt;sup&gt;2&lt;/sup&gt;, which are values on the diagonal of the
-Hessian matrix, which recall is
-$\begin{bmatrix} \left( \frac{\partial ^2 l}{\partial \beta_j^2} \right) &amp;amp; \left( \frac{\partial ^2 l}{\partial \beta_k \partial \beta_j} \right)\\ \left( \frac{\partial ^2 l}{\partial \beta_j \partial \beta_k} \right) &amp;amp; \left( \frac{\partial ^2 l}{\partial \beta_k^2} \right)\\ \end{bmatrix}$
-in 2-Dimensions.&lt;/p&gt;
-&lt;p&gt;Now consider the 2&lt;sup&gt;&lt;em&gt;n**d&lt;/em&gt;&lt;/sup&gt; term in &lt;strong&gt;equation 4&lt;/strong&gt;:&lt;/p&gt;
-&lt;p&gt;$$\left( \frac{1}{g&#39;(\mu_i)} \frac{1}{V(\mu_i)} \right)&#39;$$&lt;/p&gt;
-&lt;p&gt;If we used Newton-Raphson, we would need to calculate this derivative.
-However, if we use &lt;strong&gt;Fisher Scoring&lt;/strong&gt;, this term cancels out and we
-don&amp;rsquo;t need to calculate the derivative. Fisher Scoring is a form of
-Newton&amp;rsquo;s Method used in statistics to solve Maximum Likelihood equations
-numerically. Instead of usig the inverse of the Hessian, we use the
-inverse of the Fisher Information matrix:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Fisher Scoring&lt;/strong&gt;
-&lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt; + 1&lt;/sub&gt; = &lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; = &lt;em&gt;J&lt;/em&gt;&lt;sup&gt;−1&lt;/sup&gt;∇&lt;em&gt;l&lt;/em&gt;
-where &lt;em&gt;J&lt;/em&gt; = 𝔼[−∇&lt;sup&gt;2&lt;/sup&gt;&lt;em&gt;l&lt;/em&gt;], the expected value of the negative
-Hessian.&lt;/p&gt;
-&lt;p&gt;Taking the negative expected value from &lt;strong&gt;equation 4&lt;/strong&gt;, the first term
-becomes&lt;/p&gt;
-&lt;p&gt;$$\mathop{\mathbb{E}} \left( - - \frac{x_{i,j} x_{i,k}}{a(\phi) (g&#39;(\mu_i))^2} \frac{1}{V(\mu_i)} = \frac{x_{i,j}x_{i,k}}{a(\phi) (g&#39;(\mu_i))^2} \frac{1}{V(\mu_i)}$$&lt;/p&gt;
-&lt;p&gt;since none of the above values depende on &lt;em&gt;y&lt;/em&gt; hence are all constant.
-The 2&lt;sup&gt;&lt;em&gt;n**d&lt;/em&gt;&lt;/sup&gt; term in &lt;strong&gt;equation 4&lt;/strong&gt; becomes:&lt;/p&gt;
-&lt;p&gt;$$\mathop{\mathbb{E}} \left( - \frac{x_{i,j}}{a(\phi)}(y_i - \mu_i) \left( \frac{1}{g&#39;(\mu_i) V(\mu_i)} \right) &#39; \right) =  - \frac{x_{i,j}}{a(\phi)}(y_i - \mu_i) \left( \frac{1}{g&#39;(\mu_i) V(\mu_i)} \right)&#39; \mathop{\mathbb{E}}(y_i - \mu_i)$$&lt;/p&gt;
-&lt;p&gt;but this expectation is equal to zero and the second term therefore
-vanishes. We then have:&lt;/p&gt;
-&lt;p&gt;$$J = \sum_{i = 1}^n \frac{x_{i,j} x_{i,k}}{a(\phi) (g&#39;(\mu_i))^2 \frac{1}{V(\mu_i)}} = \mathbf{X}^T \mathbf{W} \mathbf{X}$$&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\frac{x_{i,j}}{a(\phi)} \left( - \frac{x_{i, k}}{g&amp;#39;(\mu_i)} \right) \frac{1}{g&amp;#39;(\mu_i)} \frac{1}{V(\mu_i)} = - \frac{x_{i, j} x_{i, k}}{a(\phi)(g&amp;#39;(\mu_i))^2} \frac{1}{V(\mu_i)}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Of course, if we differentiate by the same &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;-coefficient, we have &lt;span class=&#34;math inline&#34;&gt;\(x_j^2\)&lt;/span&gt;, which are values on the diagonal of the Hessian matrix, which recall is &lt;span class=&#34;math inline&#34;&gt;\(\begin{bmatrix} \left( \frac{\partial ^2 l}{\partial \beta_j^2} \right) &amp;amp; \left( \frac{\partial ^2 l}{\partial \beta_k \partial \beta_j} \right)\\ \left( \frac{\partial ^2 l}{\partial \beta_j \partial \beta_k} \right) &amp;amp; \left( \frac{\partial ^2 l}{\partial \beta_k^2} \right)\\ \end{bmatrix}\)&lt;/span&gt; in 2-Dimensions.&lt;/p&gt;
+&lt;p&gt;Now consider the &lt;span class=&#34;math inline&#34;&gt;\(2^{nd}\)&lt;/span&gt; term in &lt;strong&gt;equation 4&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\left( \frac{1}{g&amp;#39;(\mu_i)} \frac{1}{V(\mu_i)} \right)&amp;#39;\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;If we used Newton-Raphson, we would need to calculate this derivative. However, if we use &lt;strong&gt;Fisher Scoring&lt;/strong&gt;, this term cancels out and we don&#39;t need to calculate the derivative. Fisher Scoring is a form of Newton&#39;s Method used in statistics to solve Maximum Likelihood equations numerically. Instead of usig the inverse of the Hessian, we use the inverse of the Fisher Information matrix:&lt;/p&gt;
+&lt;div class=&#34;alert alert-info&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Fisher Scoring&lt;/strong&gt; &lt;span class=&#34;math display&#34;&gt;\[\beta_{t+1} = \beta_t = J^{-1} \nabla l\]&lt;/span&gt; where &lt;span class=&#34;math inline&#34;&gt;\(J = \mathop{\mathbb{E}}[- \nabla^2 l]\)&lt;/span&gt;, the expected value of the negative Hessian.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Taking the negative expected value from &lt;strong&gt;equation 4&lt;/strong&gt;, the first term becomes&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathop{\mathbb{E}} \left( - - \frac{x_{i,j} x_{i,k}}{a(\phi) (g&amp;#39;(\mu_i))^2} \frac{1}{V(\mu_i)} = \frac{x_{i,j}x_{i,k}}{a(\phi) (g&amp;#39;(\mu_i))^2} \frac{1}{V(\mu_i)}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;since none of the above values depende on &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; hence are all constant. The &lt;span class=&#34;math inline&#34;&gt;\(2^{nd}\)&lt;/span&gt; term in &lt;strong&gt;equation 4&lt;/strong&gt; becomes:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathop{\mathbb{E}} \left( - \frac{x_{i,j}}{a(\phi)}(y_i - \mu_i) \left( \frac{1}{g&amp;#39;(\mu_i) V(\mu_i)} \right) &amp;#39; \right) =  - \frac{x_{i,j}}{a(\phi)}(y_i - \mu_i) \left( \frac{1}{g&amp;#39;(\mu_i) V(\mu_i)} \right)&amp;#39; \mathop{\mathbb{E}}(y_i - \mu_i)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;but this expectation is equal to zero and the second term therefore vanishes. We then have:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[J = \sum_{i = 1}^n \frac{x_{i,j} x_{i,k}}{a(\phi) (g&amp;#39;(\mu_i))^2 \frac{1}{V(\mu_i)}} = \mathbf{X}^T \mathbf{W} \mathbf{X}\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;This can be rewritten as:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;J&lt;/em&gt; = &lt;strong&gt;X&lt;/strong&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;strong&gt;W****X&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[J = \mathbf{X}^T \mathbf{W} \mathbf{X}\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;where&lt;/p&gt;
-&lt;p&gt;$$\mathbf{W} = \frac{1}{a(\phi)} \begin{bmatrix} \frac{1}{V(\mu_1)} \frac{1}{(g&#39;(\mu_1))^2} &amp;amp;  &amp;amp; \\ &amp;amp; &amp;hellip; &amp;amp; \\ &amp;amp; &amp;amp; \frac{1}{V(\mu_n)(g&#39;(\mu_n))^2}\\ \end{bmatrix}$$&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathbf{W} = \frac{1}{a(\phi)} \begin{bmatrix} \frac{1}{V(\mu_1)} \frac{1}{(g&amp;#39;(\mu_1))^2} &amp;amp;  &amp;amp; \\ &amp;amp; ... &amp;amp; \\ &amp;amp; &amp;amp; \frac{1}{V(\mu_n)(g&amp;#39;(\mu_n))^2}\\ \end{bmatrix}\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;From Fisher Scoring, we have:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;β&lt;/strong&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt; + 1&lt;/sub&gt; = &lt;strong&gt;β&lt;/strong&gt;&lt;sub&gt;&lt;strong&gt;t&lt;/strong&gt;&lt;/sub&gt; = &lt;strong&gt;J&lt;/strong&gt;&lt;sup&gt;−1&lt;/sup&gt;∇&lt;sub&gt;&lt;em&gt;β&lt;/em&gt;&lt;/sub&gt;&lt;em&gt;l&lt;/em&gt;(&lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;)&lt;/p&gt;
-&lt;p&gt;We can rewrite
-$\nabla_{\beta}l = \sum_{i = 1}^n \frac{y_i - \mu_i}{a(\phi)} frac{1}{a(\phi)} \frac{x_{i,j}}{V(\mu_i g&#39;(\mu_i))}$
-as &lt;strong&gt;X&lt;/strong&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;strong&gt;D****V&lt;/strong&gt;&lt;sup&gt;−1&lt;/sup&gt;(&lt;em&gt;y&lt;/em&gt; − &lt;em&gt;μ&lt;/em&gt;) where:&lt;/p&gt;
-&lt;p&gt;$$\mathbf{D} = \begin{bmatrix} \frac{1}{g&#39;(\mu_1)} &amp;amp; &amp;amp; \\ &amp;amp; &amp;hellip; &amp;amp; \\ &amp;amp; &amp;amp; \frac{1}{g&#39;(\mu_n)} \\ \end{bmatrix}$$&lt;/p&gt;
-&lt;p&gt;$$\mathbf{V}^{-1} = \frac{1}{a(\phi)} \begin{bmatrix} \frac{1}{V(\mu_1)} &amp;amp; &amp;amp; \\ &amp;amp; &amp;hellip; &amp;amp; \\ &amp;amp; &amp;amp; \frac{1}{V(\mu_n)} \\ \end{bmatrix}$$&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathbf{\beta}_{t+1} = \mathbf{\beta_t} = \mathbf{J}^{-1} \nabla_{\beta} l (\beta_t)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;We can rewrite &lt;span class=&#34;math inline&#34;&gt;\(\nabla_{\beta}l = \sum_{i = 1}^n \frac{y_i - \mu_i}{a(\phi)} frac{1}{a(\phi)} \frac{x_{i,j}}{V(\mu_i g&amp;#39;(\mu_i))}\)&lt;/span&gt; as &lt;span class=&#34;math inline&#34;&gt;\(\mathbf{X}^T \mathbf{D} \mathbf{V}^{-1} (y - \mu)\)&lt;/span&gt; where:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathbf{D} = \begin{bmatrix} \frac{1}{g&amp;#39;(\mu_1)} &amp;amp; &amp;amp; \\ &amp;amp; ... &amp;amp; \\ &amp;amp; &amp;amp; \frac{1}{g&amp;#39;(\mu_n)} \\ \end{bmatrix}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathbf{V}^{-1} = \frac{1}{a(\phi)} \begin{bmatrix} \frac{1}{V(\mu_1)} &amp;amp; &amp;amp; \\ &amp;amp; ... &amp;amp; \\ &amp;amp; &amp;amp; \frac{1}{V(\mu_n)} \\ \end{bmatrix}\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Then for the Fisher Equation we have:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;β&lt;/strong&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt; + 1&lt;/sub&gt; = &lt;strong&gt;β&lt;/strong&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; + (&lt;strong&gt;X&lt;/strong&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;strong&gt;W****X&lt;/strong&gt;)&lt;sup&gt;−1&lt;/sup&gt;&lt;strong&gt;X&lt;/strong&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;strong&gt;D****V&lt;/strong&gt;&lt;sup&gt;−1&lt;/sup&gt;(&lt;strong&gt;y&lt;/strong&gt; − &lt;strong&gt;μ&lt;/strong&gt;)&lt;/p&gt;
-&lt;p&gt;We can write this more generally, by noting that &lt;strong&gt;W&lt;/strong&gt; is the same as
-&lt;strong&gt;D****V&lt;/strong&gt;&lt;sup&gt;−1&lt;/sup&gt;, except we have $\frac{1}{(g&#39;(\mu_i))^2}$.&lt;/p&gt;
-&lt;p&gt;⟹&lt;strong&gt;D****V&lt;/strong&gt;&lt;sup&gt;−1&lt;/sup&gt; = &lt;strong&gt;W****M&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathbf{\beta}_{t+1} = \mathbf{\beta}_t + (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1} \mathbf{X}^T \mathbf{D} \mathbf{V}^{-1} (\mathbf{y} - \mathbf{\mu})\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;We can write this more generally, by noting that &lt;span class=&#34;math inline&#34;&gt;\(\mathbf{W}\)&lt;/span&gt; is the same as &lt;span class=&#34;math inline&#34;&gt;\(\mathbf{D} \mathbf{V}^{-1}\)&lt;/span&gt;, except we have &lt;span class=&#34;math inline&#34;&gt;\(\frac{1}{(g&amp;#39;(\mu_i))^2}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\implies \mathbf{D} \mathbf{V}^{-1} = \mathbf{W M}\]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;where&lt;/p&gt;
-&lt;p&gt;$$\mathbf{M} = \begin{bmatrix}  \frac{1}{g&#39;(\mu_1)} &amp;amp; &amp;amp; \\ &amp;amp; &amp;hellip; &amp;amp; \\ &amp;amp; &amp;amp; \frac{1}{g&#39;(\mu_1)} \\ \end{bmatrix}$$&lt;/p&gt;
-&lt;p&gt;⟹&lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt; + 1&lt;/sub&gt; = &lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; + (&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W**X&lt;/em&gt;)&lt;sup&gt;−1&lt;/sup&gt;&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W**M&lt;/em&gt;(&lt;em&gt;y&lt;/em&gt; − &lt;em&gt;μ&lt;/em&gt;)&lt;/p&gt;
-&lt;p&gt;We can already calculate each of these terms and thus generate an
-iterative model-fitting algorithm. We can update the &lt;em&gt;β&lt;/em&gt;&amp;rsquo;s until
-convergence of the algorithm. We can then simplify the equation:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt; + 1&lt;/sub&gt; = (&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W**X&lt;/em&gt;)&lt;sup&gt;−1&lt;/sup&gt;(&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W**X&lt;/em&gt;)&lt;em&gt;b&lt;strong&gt;e&lt;/strong&gt;t**a&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; + (&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W**X&lt;/em&gt;)&lt;sup&gt;−1&lt;/sup&gt;&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W**M&lt;/em&gt;(&lt;em&gt;y&lt;/em&gt; − &lt;em&gt;μ&lt;/em&gt;)=(&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W**X&lt;/em&gt;)&lt;sup&gt;−1&lt;/sup&gt;&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W&lt;/em&gt;(&lt;em&gt;X**β&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; + &lt;em&gt;M&lt;/em&gt;(&lt;em&gt;y&lt;/em&gt; − &lt;em&gt;μ&lt;/em&gt;)) = (&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W**X&lt;/em&gt;)&lt;sup&gt;−1&lt;/sup&gt;&lt;em&gt;X&lt;/em&gt;&lt;sup&gt;&lt;em&gt;T&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;W**Z&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;&lt;/p&gt;
-&lt;p&gt;where &lt;em&gt;Z&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; := &lt;em&gt;η&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; + &lt;em&gt;M&lt;/em&gt;(&lt;em&gt;y&lt;/em&gt; − &lt;em&gt;μ&lt;/em&gt;)&lt;/p&gt;
-&lt;p&gt;This is &amp;ldquo;iteratively Reweighted Least Squares&amp;rdquo;- at each iteration we are
-solving a weighted least squares problem, is iterative because we update
-W&amp;rsquo;s and Z&amp;rsquo;s at the same time. The amount the algorithm updates depends
-on two things- &lt;em&gt;Z&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt; and &lt;em&gt;W&lt;/em&gt;. For &lt;em&gt;Z&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;, larger
-deviation between &lt;em&gt;y&lt;/em&gt; and &lt;em&gt;μ&lt;/em&gt; results in larger steps in the iteration
-procedure. Unless we have a saturated model, $y \not \mu$ (observed
-values don&amp;rsquo;t equal predicted values), there is a trade-off as we vary
-&lt;em&gt;β&lt;/em&gt;, resulting in different discrepencies between &lt;em&gt;y&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt; and
-&lt;em&gt;μ&lt;/em&gt;&lt;sub&gt;&lt;em&gt;i&lt;/em&gt;&lt;/sub&gt;.&lt;/p&gt;
-&lt;p&gt;The Hessian is a matrix of second derivatives of the log-likelihood
-function, that is, derivatives of the derivative of the log-likelihood
-function. The second derivative therefore measures curvature, that is
-how much the first derivative changes as we vary the input. If the
-likelihood has a second derivative of zero, then the likelihood (cost
-function) is a flat line, so its value can be predicted using only the
-gradient. If the gradient is 1, a step size of &lt;em&gt;ϵ&lt;/em&gt; &amp;gt; 0 then the
-likelihood function will increase by the value of &lt;em&gt;ϵ&lt;/em&gt;. If the
-2&lt;sup&gt;&lt;em&gt;n**d&lt;/em&gt;&lt;/sup&gt; derivative is negative (the gradient of the
-likelihood function is becoming more negative fo an increase &lt;em&gt;ϵ&lt;/em&gt; at
-&lt;em&gt;x&lt;/em&gt;), the likelihood function curves downwards, so the likelihood will
-decrease by more than &lt;em&gt;ϵ&lt;/em&gt;. That is, the likelihood decreases faster than
-the gradient predicts for small &lt;em&gt;ϵ&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;When our function has multiple input dimensions, there are many
-2&lt;sup&gt;&lt;em&gt;n**d&lt;/em&gt;&lt;/sup&gt; derivatives (one for each feature and then for each
-feature crossed with every other feature), and can be collected in a
-matrix called the &lt;em&gt;Hessian&lt;/em&gt;. If we look at the IRLS equation, we have 3
-terms. Firstly, we have the original value of the function, the expected
-improvement due to the slope of the function and a correction we must
-apply to account for the curvature of the function. When this last term
-is too small, the likelihood step can actually move downhill.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Derivation of Model Fitting Algorithms/Coefficients&lt;/strong&gt;
-This derivation of Iteratively Reweighted Least Squares for GLMs follows
-a similar procedure to the derivation of any model fitting algorithm.
-Firstly, we identify an objective function over which to optimize.
-Typical Machine Learning problems involve minimizing some loss function,
-which gives discrepencies between the actual and true values. We then
-differentiate this function to find a minimum and use Newton - Raphson
-&amp;hellip; What other algorithms are there for fitting other models and how are
-their model-fitting algorithms derived?&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\mathbf{M} = \begin{bmatrix}  \frac{1}{g&amp;#39;(\mu_1)} &amp;amp; &amp;amp; \\ &amp;amp; ... &amp;amp; \\ &amp;amp; &amp;amp; \frac{1}{g&amp;#39;(\mu_1)} \\ \end{bmatrix}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\implies \beta_{t + 1} = \beta_t + (X^T W X)^{-1} X^T W M (y - \mu)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;We can already calculate each of these terms and thus generate an iterative model-fitting algorithm. We can update the &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;&#39;s until convergence of the algorithm. We can then simplify the equation:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\beta_{t+1} = (X^T W X)^{-1} (X^T W X) beta_t + (X^T W X)^{-1} X^T W M (y - \mu) =
+  (X^T W X)^{-1} X^T W (X \beta_t + M (y - \mu)) = 
+  (X^T W X)^{-1} X^T W Z_t\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(Z_t := \eta_t + M(y - \mu)\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;This is &amp;quot;iteratively Reweighted Least Squares&amp;quot;- at each iteration we are solving a weighted least squares problem, is iterative because we update W&#39;s and Z&#39;s at the same time. The amount the algorithm updates depends on two things- &lt;span class=&#34;math inline&#34;&gt;\(Z_t\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(W\)&lt;/span&gt;. For &lt;span class=&#34;math inline&#34;&gt;\(Z_t\)&lt;/span&gt;, larger deviation between &lt;span class=&#34;math inline&#34;&gt;\(y\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\mu\)&lt;/span&gt; results in larger steps in the iteration procedure. Unless we have a saturated model, &lt;span class=&#34;math inline&#34;&gt;\(y \not \mu\)&lt;/span&gt; (observed values don&#39;t equal predicted values), there is a trade-off as we vary &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;, resulting in different discrepencies between &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\mu_i\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The Hessian is a matrix of second derivatives of the log-likelihood function, that is, derivatives of the derivative of the log-likelihood function. The second derivative therefore measures curvature, that is how much the first derivative changes as we vary the input. If the likelihood has a second derivative of zero, then the likelihood (cost function) is a flat line, so its value can be predicted using only the gradient. If the gradient is 1, a step size of &lt;span class=&#34;math inline&#34;&gt;\(\epsilon &amp;gt; 0\)&lt;/span&gt; then the likelihood function will increase by the value of &lt;span class=&#34;math inline&#34;&gt;\(\epsilon\)&lt;/span&gt;. If the &lt;span class=&#34;math inline&#34;&gt;\(2^{nd}\)&lt;/span&gt; derivative is negative (the gradient of the likelihood function is becoming more negative fo an increase &lt;span class=&#34;math inline&#34;&gt;\(\epsilon\)&lt;/span&gt; at &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;), the likelihood function curves downwards, so the likelihood will decrease by more than &lt;span class=&#34;math inline&#34;&gt;\(\epsilon\)&lt;/span&gt;. That is, the likelihood decreases faster than the gradient predicts for small &lt;span class=&#34;math inline&#34;&gt;\(\epsilon\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;When our function has multiple input dimensions, there are many &lt;span class=&#34;math inline&#34;&gt;\(2^{nd}\)&lt;/span&gt; derivatives (one for each feature and then for each feature crossed with every other feature), and can be collected in a matrix called the &lt;em&gt;Hessian&lt;/em&gt;. If we look at the IRLS equation, we have 3 terms. Firstly, we have the original value of the function, the expected improvement due to the slope of the function and a correction we must apply to account for the curvature of the function. When this last term is too small, the likelihood step can actually move downhill.&lt;/p&gt;
+&lt;div class=&#34;alert alert-info&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Derivation of Model Fitting Algorithms/Coefficients&lt;/strong&gt; This derivation of Iteratively Reweighted Least Squares for GLMs follows a similar procedure to the derivation of any model fitting algorithm. Firstly, we identify an objective function over which to optimize. Typical Machine Learning problems involve minimizing some loss function, which gives discrepencies between the actual and true values. We then differentiate this function to find a minimum and use Newton - Raphson ... What other algorithms are there for fitting other models and how are their model-fitting algorithms derived?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;alert alert-info&#34;&gt;
 &lt;p&gt;&lt;strong&gt;Why Bother with Parametric Assumptions&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Advantages&lt;/strong&gt; - Large amounts of data can be modelled as random
-variables from the exponential family of distributions - If there are
-relatively few observations, providing a structure for the model
-generating process can improve predictive performance - Enables us to
-carry out inference on model covariates - Simple and intuitive to
-understand. In some industries (such as insurance), this has huge
-benefits- it is transparent and can fit into a rate structure&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Disadvantages&lt;/strong&gt; - Validity of inference dependent on assumptions being
-satisfied - Places a very rigid structure - Typically has worse
-predictive performance than non-linear models, such as Boosted Trees and
-Neural Networks.&lt;/p&gt;
-&lt;h2 id=&#34;irls-implementation&#34;&gt;IRLS Implementation&lt;/h2&gt;
-&lt;p&gt;In the following, we implement IRLS for Generalized Linear Models
-(GLMs). We could also write in C++ for a more efficient implementation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Advantages&lt;/strong&gt; - Large amounts of data can be modelled as random variables from the exponential family of distributions - If there are relatively few observations, providing a structure for the model generating process can improve predictive performance - Enables us to carry out inference on model covariates - Simple and intuitive to understand. In some industries (such as insurance), this has huge benefits- it is transparent and can fit into a rate structure&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Disadvantages&lt;/strong&gt; - Validity of inference dependent on assumptions being satisfied - Places a very rigid structure - Typically has worse predictive performance than non-linear models, such as Boosted Trees and Neural Networks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;irls-implementation&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;IRLS Implementation&lt;/h2&gt;
+&lt;p&gt;In the following, we implement IRLS for Generalized Linear Models (GLMs). We could also write in C++ for a more efficient implementation.&lt;/p&gt;
+&lt;/div&gt;
 </description>
     </item>
     
